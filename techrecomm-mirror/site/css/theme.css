@@ -4,7 +4,8 @@
 /* Remove phone/mail icons from footer contact sections */
 .elementor-icon-list-icon .icon.icon-contact,
 .elementor-icon-list-icon .icon.icon-phone-handset,
-.elementor-social-icon-icon-phone-call1{display:none!important}
+.elementor-social-icon-icon-phone-call1,
+.elementor-social-icon-.elementor-repeater-item-8425df4{display:none!important}
 .elementor-icon-list-item:has(.icon.icon-contact),
 .elementor-icon-list-item:has(.icon.icon-phone-handset){display:none!important}
 /* Fallback for browsers without :has() support */
