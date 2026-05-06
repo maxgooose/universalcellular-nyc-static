@@ -10,11 +10,6 @@
   status = 200
 
 [[redirects]]
-  from = "/meet-the-team/"
-  to = "/meet-the-team.html"
-  status = 200
-
-[[redirects]]
   from = "/apple-ipad/"
   to = "/apple-ipad.html"
   status = 200

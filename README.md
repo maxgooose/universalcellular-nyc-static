@@ -53,7 +53,6 @@ Forms and AJAX: see [`docs/FORMS-AND-AJAX.md`](docs/FORMS-AND-AJAX.md).
 |-------|----------------|
 | Home | `index.html` |
 | About / Mission anchor | `about-us.html` (#mission) |
-| Meet The Team | `meet-the-team.html` |
 | Apple iPad / iPhone / iWatch / Accessories | `apple-*.html` |
 | Samsung Phones / Watches / Tablets | `samsung-*.html` |
 | Sell To Us / Buy From Us | `sell-to-us.html`, `buy-from-us.html` |

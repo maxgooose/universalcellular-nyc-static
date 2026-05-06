@@ -1,0 +1,17 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/techrecomm-mirror/site/index.html" },
+    { "source": "/about-us/", "destination": "/techrecomm-mirror/site/about-us.html" },
+    { "source": "/apple-ipad/", "destination": "/techrecomm-mirror/site/apple-ipad.html" },
+    { "source": "/apple-iphone/", "destination": "/techrecomm-mirror/site/apple-iphone.html" },
+    { "source": "/apple-iwatch/", "destination": "/techrecomm-mirror/site/apple-iwatch.html" },
+    { "source": "/apple-accessories/", "destination": "/techrecomm-mirror/site/apple-accessories.html" },
+    { "source": "/samsung-phones/", "destination": "/techrecomm-mirror/site/samsung-phones.html" },
+    { "source": "/samsung-watches/", "destination": "/techrecomm-mirror/site/samsung-watches.html" },
+    { "source": "/samsung-tablets/", "destination": "/techrecomm-mirror/site/samsung-tablets.html" },
+    { "source": "/sell-to-us/", "destination": "/techrecomm-mirror/site/sell-to-us.html" },
+    { "source": "/buy-from-us/", "destination": "/techrecomm-mirror/site/buy-from-us.html" },
+    { "source": "/grading/", "destination": "/techrecomm-mirror/site/grading.html" },
+    { "source": "/(.*)", "destination": "/techrecomm-mirror/site/$1" }
+  ]
+}

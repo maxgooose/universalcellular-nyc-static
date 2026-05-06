@@ -2,7 +2,6 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/about-us/", "destination": "/about-us.html" },
-    { "source": "/meet-the-team/", "destination": "/meet-the-team.html" },
     { "source": "/apple-ipad/", "destination": "/apple-ipad.html" },
     { "source": "/apple-iphone/", "destination": "/apple-iphone.html" },
     { "source": "/apple-iwatch/", "destination": "/apple-iwatch.html" },
