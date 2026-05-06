@@ -1,0 +1,18 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/about-us/", "destination": "/about-us.html" },
+    { "source": "/meet-the-team/", "destination": "/meet-the-team.html" },
+    { "source": "/apple-ipad/", "destination": "/apple-ipad.html" },
+    { "source": "/apple-iphone/", "destination": "/apple-iphone.html" },
+    { "source": "/apple-iwatch/", "destination": "/apple-iwatch.html" },
+    { "source": "/apple-accessories/", "destination": "/apple-accessories.html" },
+    { "source": "/samsung-phones/", "destination": "/samsung-phones.html" },
+    { "source": "/samsung-watches/", "destination": "/samsung-watches.html" },
+    { "source": "/samsung-tablets/", "destination": "/samsung-tablets.html" },
+    { "source": "/sell-to-us/", "destination": "/sell-to-us.html" },
+    { "source": "/buy-from-us/", "destination": "/buy-from-us.html" },
+    { "source": "/grading/", "destination": "/grading.html" },
+    { "source": "/contact-us/", "destination": "/contact-us.html" }
+  ]
+}

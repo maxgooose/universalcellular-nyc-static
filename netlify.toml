@@ -1,0 +1,70 @@
+# Netlify: publish the static mirror with WordPress-style URLs mapped to `.html` files
+
+[build]
+  publish = "universalcellular-mirror/site"
+
+# Pretty URLs (optional): map trailing-slash paths to mirrored files
+[[redirects]]
+  from = "/about-us/"
+  to = "/about-us.html"
+  status = 200
+
+[[redirects]]
+  from = "/meet-the-team/"
+  to = "/meet-the-team.html"
+  status = 200
+
+[[redirects]]
+  from = "/apple-ipad/"
+  to = "/apple-ipad.html"
+  status = 200
+
+[[redirects]]
+  from = "/apple-iphone/"
+  to = "/apple-iphone.html"
+  status = 200
+
+[[redirects]]
+  from = "/apple-iwatch/"
+  to = "/apple-iwatch.html"
+  status = 200
+
+[[redirects]]
+  from = "/apple-accessories/"
+  to = "/apple-accessories.html"
+  status = 200
+
+[[redirects]]
+  from = "/samsung-phones/"
+  to = "/samsung-phones.html"
+  status = 200
+
+[[redirects]]
+  from = "/samsung-watches/"
+  to = "/samsung-watches.html"
+  status = 200
+
+[[redirects]]
+  from = "/samsung-tablets/"
+  to = "/samsung-tablets.html"
+  status = 200
+
+[[redirects]]
+  from = "/sell-to-us/"
+  to = "/sell-to-us.html"
+  status = 200
+
+[[redirects]]
+  from = "/buy-from-us/"
+  to = "/buy-from-us.html"
+  status = 200
+
+[[redirects]]
+  from = "/grading/"
+  to = "/grading.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact-us/"
+  to = "/contact-us.html"
+  status = 200
