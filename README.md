@@ -1,7 +1,6 @@
-# Universal Cellular NYC – static frontend mirror
+# techrecomm – static site
 
-Mirrored source: **https://universalcellularnyc.com/**  
-Output directory: [`universalcellular-mirror/site`](universalcellular-mirror/site)
+Design and copy are maintained in the static output at [`techrecomm-mirror/site`](techrecomm-mirror/site). The mirror pipeline was originally sourced from **https://universalcellularnyc.com/**; `npm run normalize` applies **techrecomm** branding to scraped HTML.
 
 ## Prerequisites
 
@@ -21,7 +20,7 @@ npm run audit           # must report missingCount: 0
 
 ## Local preview
 
-Local dev loads [`universalcellular-mirror/serve.json`](universalcellular-mirror/serve.json) (via `serve -c`) so **WordPress-style URLs** like `/contact-us/` map to `contact-us.html`. Without that, trailing-slash paths 404 after a fresh mirror (duplicate `slug/index.html` folders are removed). Re-run `npm run serve` after pulling changes.
+Local dev loads [`techrecomm-mirror/serve.json`](techrecomm-mirror/serve.json) (via `serve -c`) so **WordPress-style URLs** like `/contact-us/` map to `contact-us.html`. Without that, trailing-slash paths 404 after a fresh mirror (duplicate `slug/index.html` folders are removed). Re-run `npm run serve` after pulling changes.
 
 ```bash
 npm run serve
@@ -36,12 +35,12 @@ With the server running:
 node scripts/parity-screenshots.mjs http://127.0.0.1:3333
 ```
 
-PNG files are written to [`universalcellular-mirror/screenshots`](universalcellular-mirror/screenshots).
+PNG files are written to [`techrecomm-mirror/screenshots`](techrecomm-mirror/screenshots).
 
 ## Deploy
 
-- **Netlify:** repo root contains [`netlify.toml`](netlify.toml) pointing `publish` at `universalcellular-mirror/site`. Connect the repo and deploy.
-- **Vercel / Cloudflare Pages / S3:** set the static root to `universalcellular-mirror/site` and replicate the pretty-URL rules from `netlify.toml` if you need `/about-us/` → `about-us.html`.
+- **Netlify:** repo root contains [`netlify.toml`](netlify.toml) pointing `publish` at `techrecomm-mirror/site`. Connect the repo and deploy.
+- **Vercel / Cloudflare Pages / S3:** set the static root to `techrecomm-mirror/site` and replicate the pretty-URL rules from `netlify.toml` if you need `/about-us/` → `about-us.html`.
 
 Forms and AJAX: see [`docs/FORMS-AND-AJAX.md`](docs/FORMS-AND-AJAX.md).
 

@@ -1,7 +1,7 @@
 # Netlify: publish the static mirror with WordPress-style URLs mapped to `.html` files
 
 [build]
-  publish = "universalcellular-mirror/site"
+  publish = "techrecomm-mirror/site"
 
 # Pretty URLs (optional): map trailing-slash paths to mirrored files
 [[redirects]]

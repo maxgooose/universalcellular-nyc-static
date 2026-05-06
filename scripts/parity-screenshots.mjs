@@ -9,7 +9,7 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const OUT = join(__dirname, "..", "universalcellular-mirror", "screenshots");
+const OUT = join(__dirname, "..", "techrecomm-mirror", "screenshots");
 const base =
   process.argv[2]?.replace(/\/$/, "") || "http://127.0.0.1:3333";
 

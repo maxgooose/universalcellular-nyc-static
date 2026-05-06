@@ -7,7 +7,7 @@ import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const SITE_ROOT = join(__dirname, "..", "universalcellular-mirror", "site");
+const SITE_ROOT = join(__dirname, "..", "techrecomm-mirror", "site");
 
 const BASE = "https://universalcellularnyc.com";
 const ALLOWED_HOSTS = new Set([

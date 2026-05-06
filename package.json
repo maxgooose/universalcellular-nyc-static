@@ -1,9 +1,9 @@
 {
-  "name": "universalcellular-mirror",
+  "name": "techrecomm",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Static mirror of universalcellularnyc.com frontend",
+  "description": "techrecomm static site (mirrored frontend + normalize)",
   "scripts": {
     "mirror": "node scripts/mirror.mjs",
     "gap-fill": "node scripts/gap-fill.mjs",
@@ -12,7 +12,7 @@
     "normalize": "node scripts/normalize-mirror.mjs",
     "audit": "node scripts/audit-local.mjs",
     "parity": "node scripts/parity-screenshots.mjs",
-    "serve": "npx serve -l tcp://127.0.0.1:3333 --no-port-switching -c ../serve.json universalcellular-mirror/site",
+    "serve": "npx serve -l tcp://127.0.0.1:3333 --no-port-switching -c techrecomm-mirror/serve.json techrecomm-mirror/site",
     "build:mirror": "npm run mirror && npm run gap-fill && npm run fetch:embedded && npm run fetch:missing && npm run normalize && npm run audit"
   },
   "dependencies": {

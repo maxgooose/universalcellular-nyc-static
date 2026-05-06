@@ -6,7 +6,7 @@ import { dirname, join, normalize } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const SITE_ROOT = join(__dirname, "..", "universalcellular-mirror", "site");
+const SITE_ROOT = join(__dirname, "..", "techrecomm-mirror", "site");
 
 function walkFiles(dir, acc = []) {
   for (const name of readdirSync(dir, { withFileTypes: true })) {
