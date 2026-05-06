@@ -12,7 +12,7 @@
     "normalize": "node scripts/normalize-mirror.mjs",
     "audit": "node scripts/audit-local.mjs",
     "parity": "node scripts/parity-screenshots.mjs",
-    "serve": "npx serve -l tcp://127.0.0.1:3333 --no-port-switching -c techrecomm-mirror/serve.json techrecomm-mirror/site",
+    "serve": "npx serve -l tcp://127.0.0.1:3333 --no-port-switching -c ../serve.json techrecomm-mirror/site",
     "build:mirror": "npm run mirror && npm run gap-fill && npm run fetch:embedded && npm run fetch:missing && npm run normalize && npm run audit"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "playwright": "^1.59.1",
+    "pngjs": "^7.0.0",
     "serve": "^14.2.6"
   }
 }

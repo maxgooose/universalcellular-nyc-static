@@ -27,7 +27,6 @@ const routes = [
   "/sell-to-us.html",
   "/buy-from-us.html",
   "/grading.html",
-  "/contact-us.html",
 ];
 
 async function main() {

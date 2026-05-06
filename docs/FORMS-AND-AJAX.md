@@ -3,7 +3,7 @@
 This mirror is **static HTML/CSS/JS**. WordPress/Contact Form 7 and Elementor AJAX endpoints
 (such as `/wp-admin/admin-ajax.php`) are **not available** on pure static hosting.
 
-## Contact form (`contact-us.html`)
+## Form handling
 
 1. **Option A – Form backend service**  
    Replace the CF7 form `action` with a provider endpoint (e.g. [Formspree](https://formspree.io/), [Basin](https://usebasin.com/), or your own API) and align field `name` attributes with that provider.

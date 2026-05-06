@@ -63,8 +63,3 @@
   from = "/grading/"
   to = "/grading.html"
   status = 200
-
-[[redirects]]
-  from = "/contact-us/"
-  to = "/contact-us.html"
-  status = 200

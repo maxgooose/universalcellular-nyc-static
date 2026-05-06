@@ -2,6 +2,9 @@
 
 Design and copy are maintained in the static output at [`techrecomm-mirror/site`](techrecomm-mirror/site). The mirror pipeline was originally sourced from **https://universalcellularnyc.com/**; `npm run normalize` applies **techrecomm** branding to scraped HTML.
 
+We reserve the right to copy from universalcellularnyc.com because we also own the domain . 
+Both properties fall under the same IP of the parent company. 
+
 ## Prerequisites
 
 - Node.js 18+ (uses built-in `fetch`)
@@ -20,7 +23,7 @@ npm run audit           # must report missingCount: 0
 
 ## Local preview
 
-Local dev loads [`techrecomm-mirror/serve.json`](techrecomm-mirror/serve.json) (via `serve -c`) so **WordPress-style URLs** like `/contact-us/` map to `contact-us.html`. Without that, trailing-slash paths 404 after a fresh mirror (duplicate `slug/index.html` folders are removed). Re-run `npm run serve` after pulling changes.
+Local dev loads [`techrecomm-mirror/serve.json`](techrecomm-mirror/serve.json) (via `serve -c`) so **WordPress-style URLs** map to the corresponding `.html` files. Without that, trailing-slash paths 404 after a fresh mirror (duplicate `slug/index.html` folders are removed). Re-run `npm run serve` after pulling changes.
 
 ```bash
 npm run serve
@@ -55,6 +58,5 @@ Forms and AJAX: see [`docs/FORMS-AND-AJAX.md`](docs/FORMS-AND-AJAX.md).
 | Samsung Phones / Watches / Tablets | `samsung-*.html` |
 | Sell To Us / Buy From Us | `sell-to-us.html`, `buy-from-us.html` |
 | Grading & Testing | `grading.html` |
-| Contact | `contact-us.html` |
 
 Mobile: resize the browser or re-run `parity-screenshots.mjs` with a smaller viewport if you add that to the script.
