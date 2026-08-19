@@ -1,123 +1,94 @@
 /**
- * Playwright gap-fill (fast): one context, domcontentloaded + short settle.
+ * Load each mirrored page from the LIVE site in headless Chromium and save
+ * runtime-requested static assets (lazy JS chunks, fonts, widget files)
+ * that the mirror does not have yet, using the shared URL->local mapping.
+ * Same-origin runtime imports would otherwise 404 on the static clone.
  */
 import { chromium } from "playwright";
 import { existsSync, mkdirSync, writeFileSync, readdirSync } from "fs";
-import { dirname, join } from "path";
+import { dirname, join, relative } from "path";
 import { fileURLToPath } from "url";
+import { localRelPathForUrl, BROWSER_UA } from "./urlmap.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SITE_ROOT = join(__dirname, "..", "techrecomm-mirror", "site");
+const BASE = "https://wireless-source.com";
 
-const BASE = "https://universalcellularnyc.com";
-const ALLOWED_HOSTS = new Set([
-  "universalcellularnyc.com",
-  "www.universalcellularnyc.com",
-]);
+const SKIP_DIRS = new Set(["_cdn", "cdn"]);
+const SKIP_RESOURCE_TYPES = new Set(["document", "xhr", "fetch", "websocket"]);
 
-function htmlFilesToPageUrls() {
-  const files = readdirSync(SITE_ROOT).filter((f) => f.endsWith(".html"));
-  return files.map((f) => {
-    if (f === "index.html") return `${BASE}/`;
-    const slug = f.replace(/\.html$/i, "");
-    return `${BASE}/${slug}/`;
-  });
-}
-
-function urlToLocalPath(resourceUrl) {
-  const u = new URL(resourceUrl);
-  let pathname = decodeURIComponent(u.pathname);
-  if (pathname.endsWith("/")) pathname += "index.html";
-  const segments = pathname.split("/").filter(Boolean);
-  return join(SITE_ROOT, ...segments);
+function pageUrls() {
+  const urls = [];
+  (function walk(dir) {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const p = join(dir, entry.name);
+      if (entry.isDirectory()) {
+        if (dir === SITE_ROOT && SKIP_DIRS.has(entry.name)) continue;
+        walk(p);
+      } else if (entry.name === "index.html") {
+        const rel = relative(SITE_ROOT, dir).replace(/\\/g, "/");
+        urls.push(rel === "" ? `${BASE}/` : `${BASE}/${rel}/`);
+      }
+    }
+  })(SITE_ROOT);
+  return urls;
 }
 
 async function main() {
-  const pageUrls = htmlFilesToPageUrls();
+  const urls = pageUrls();
+  console.log(`Visiting ${urls.length} live pages for runtime assets.`);
+
   const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
-    userAgent:
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-  });
-  const saved = [];
+  const context = await browser.newContext({ userAgent: BROWSER_UA });
+  let saved = 0;
   const errors = [];
 
-  for (const pageUrl of pageUrls) {
+  for (const [i, pageUrl] of urls.entries()) {
     const page = await context.newPage();
-
     const onResponse = async (response) => {
-      const req = response.request();
-      const rt = req.resourceType();
-      if (
-        rt === "document" ||
-        rt === "xhr" ||
-        rt === "fetch" ||
-        rt === "websocket"
-      ) {
-        return;
-      }
-
-      let resUrl;
       try {
-        resUrl = response.url();
+        if (response.status() !== 200) return;
+        if (SKIP_RESOURCE_TYPES.has(response.request().resourceType())) return;
+        const rel = localRelPathForUrl(response.url());
+        if (!rel) return;
+        const dest = join(SITE_ROOT, ...rel.split("/"));
+        if (existsSync(dest)) return;
+        const buf = await response.body().catch(() => null);
+        if (!buf?.length) return;
+        mkdirSync(dirname(dest), { recursive: true });
+        writeFileSync(dest, buf);
+        saved++;
       } catch {
-        return;
-      }
-
-      let host;
-      try {
-        host = new URL(resUrl).hostname;
-      } catch {
-        return;
-      }
-      if (!ALLOWED_HOSTS.has(host)) return;
-      if (response.status() !== 200) return;
-
-      const localPath = urlToLocalPath(resUrl);
-      if (existsSync(localPath)) return;
-
-      const buf = await response.body().catch(() => null);
-      if (!buf?.length) return;
-
-      try {
-        mkdirSync(dirname(localPath), { recursive: true });
-        writeFileSync(localPath, buf);
-        saved.push(localPath);
-      } catch (e) {
-        errors.push({ resUrl, message: String(e) });
+        /* ignore individual resource failures */
       }
     };
-
     page.on("response", onResponse);
-
     try {
       await page.goto(pageUrl, {
         waitUntil: "domcontentloaded",
         timeout: 45000,
       });
-      await new Promise((r) => setTimeout(r, 800));
+      await new Promise((r) => setTimeout(r, 1200));
     } catch (e) {
-      errors.push({ pageUrl, message: String(e) });
+      errors.push({ pageUrl, message: String(e).slice(0, 200) });
     }
-
     page.off("response", onResponse);
     await page.close();
+    if ((i + 1) % 25 === 0) {
+      console.log(`  ${i + 1}/${urls.length} pages, ${saved} files saved`);
+    }
   }
 
   await context.close();
   await browser.close();
-
   console.log(
     JSON.stringify(
-      {
-        pagesVisited: pageUrls.length,
-        newFilesWritten: saved.length,
-        errors: errors.length,
-      },
+      { pagesVisited: urls.length, newFilesWritten: saved, errors: errors.length },
       null,
       2,
     ),
   );
+  if (errors.length) console.log("error samples:", errors.slice(0, 5));
 }
 
 main().catch((e) => {

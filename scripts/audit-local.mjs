@@ -23,8 +23,15 @@ function resolveRef(fromFile, raw) {
   if (/^\/\//.test(u)) return null;
   if (/^https?:\/\//i.test(u)) return null;
   if (/^(mailto:|tel:|javascript:)/i.test(u)) return null;
-  const clean = u.split("#")[0].split("?")[0];
+  if (u.includes("${") || u.includes("{{")) return null; // JS/liquid templates
+  let clean = u.split("#")[0].split("?")[0];
   if (!clean || clean.length < 2) return null;
+  // Static servers URL-decode request paths before file lookup; mirror that.
+  try {
+    clean = decodeURIComponent(clean);
+  } catch {
+    /* keep raw */
+  }
 
   if (clean.startsWith("/")) {
     const pathSegs = clean.replace(/\/$/, "").split("/").filter(Boolean);
@@ -45,13 +52,18 @@ function resolveRef(fromFile, raw) {
   return abs;
 }
 
+// Paths excluded from the mirror by design (locale trees, feeds, auth,
+// checkout, Shopify AJAX endpoints) — links to them are expected.
+const BY_DESIGN_RE =
+  /\/site\/(es|pt|tr|zh|fr|account|checkouts?|customer_authentication|apps|cart\.js|localization|search\b)/i;
+
 function shouldIgnoreTarget(target) {
   if (!target) return true;
   const t = target.replace(/\\/g, "/").toLowerCase();
   return (
     t.includes("/wp-json/") ||
-    t.endsWith("/wp-json") ||
-    /xmlrpc\.php$/i.test(target)
+    /\.atom$/i.test(t) ||
+    BY_DESIGN_RE.test(t)
   );
 }
 

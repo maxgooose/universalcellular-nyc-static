@@ -1,0 +1,5 @@
+/*
+Generated time: November 4, 2025 21:58
+This file was created by the app developer. Feel free to contact the original developer with any questions. It was minified (compressed) by AVADA. AVADA do NOT own this script.
+*/
+customElements.get("show-more-button")||customElements.define("show-more-button",class extends HTMLElement{constructor(){super(),this.querySelector("button").addEventListener("click",e=>{this.expandShowMore(e);e=e.target.closest(".parent-display").querySelector(".show-more-item");e&&!e.classList.contains("hidden")&&e.querySelector("input")&&e.querySelector("input").focus()})}expandShowMore(e){e=e.target.closest('[id^="Show-More-"]').closest(".parent-display");e.querySelector(".parent-wrap");this.querySelectorAll(".label-text").forEach(e=>e.classList.toggle("hidden")),e.querySelectorAll(".show-more-item").forEach(e=>e.classList.toggle("hidden")),this.querySelector(".label-show-less")||this.classList.add("hidden")}});

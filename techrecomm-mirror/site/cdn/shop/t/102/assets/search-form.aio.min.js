@@ -1,0 +1,5 @@
+/*
+Generated time: November 4, 2025 21:58
+This file was created by the app developer. Feel free to contact the original developer with any questions. It was minified (compressed) by AVADA. AVADA do NOT own this script.
+*/
+class SearchForm extends HTMLElement{constructor(){super(),this.input=this.querySelector('input[type="search"]'),this.resetButton=this.querySelector('button[type="reset"]'),this.input&&(this.input.form.addEventListener("reset",this.onFormReset.bind(this)),this.input.addEventListener("input",debounce(t=>{this.onChange(t)},300).bind(this)))}toggleResetButton(){var t=this.resetButton.classList.contains("hidden");0<this.input.value.length&&t?this.resetButton.classList.remove("hidden"):0!==this.input.value.length||t||this.resetButton.classList.add("hidden")}onChange(){this.toggleResetButton()}shouldResetForm(){return!document.querySelector('[aria-selected="true"] a')}onFormReset(t){t.preventDefault(),this.shouldResetForm()&&(this.input.value="",this.input.focus(),this.toggleResetButton())}}customElements.define("search-form",SearchForm);

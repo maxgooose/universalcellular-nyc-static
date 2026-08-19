@@ -4,29 +4,33 @@
  * Example: npm run serve & node scripts/parity-screenshots.mjs http://127.0.0.1:3333
  */
 import { chromium } from "playwright";
-import { mkdirSync } from "fs";
+import { mkdirSync, readdirSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const SITE_ROOT = join(__dirname, "..", "techrecomm-mirror", "site");
 const OUT = join(__dirname, "..", "techrecomm-mirror", "screenshots");
-const base =
-  process.argv[2]?.replace(/\/$/, "") || "http://127.0.0.1:3333";
+const base = process.argv[2]?.replace(/\/$/, "") || "http://127.0.0.1:3333";
+
+function firstDirs(parent, count) {
+  const p = join(SITE_ROOT, parent);
+  if (!existsSync(p)) return [];
+  return readdirSync(p, { withFileTypes: true })
+    .filter((e) => e.isDirectory())
+    .slice(0, count)
+    .map((e) => `/${parent}/${e.name}/`);
+}
 
 const routes = [
   "/",
-  "/about-us.html",
-  "/meet-the-team.html",
-  "/apple-ipad.html",
-  "/apple-iphone.html",
-  "/apple-iwatch.html",
-  "/apple-accessories.html",
-  "/samsung-phones.html",
-  "/samsung-watches.html",
-  "/samsung-tablets.html",
-  "/sell-to-us.html",
-  "/buy-from-us.html",
-  "/grading.html",
+  "/pages/about-us/",
+  "/pages/warranty/",
+  "/collections/apple/",
+  "/collections/refurbished-iphones/",
+  "/blogs/news-and-blogs/",
+  "/search/",
+  ...firstDirs("products", 2),
 ];
 
 async function main() {
@@ -35,8 +39,11 @@ async function main() {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 
   for (const route of routes) {
-    const url = base + (route.startsWith("/") ? route : "/" + route);
-    const name = route === "/" ? "home" : route.replace(/^\//, "").replace(/\.html$/, "");
+    const url = base + route;
+    const name =
+      route === "/"
+        ? "home"
+        : route.replace(/^\/|\/$/g, "").replace(/\//g, "-");
     const path = join(OUT, `${name}-desktop.png`);
     try {
       await page.goto(url, { waitUntil: "load", timeout: 45000 });
@@ -44,7 +51,7 @@ async function main() {
       await page.screenshot({ path, fullPage: true });
       console.log("ok", url, "->", path);
     } catch (e) {
-      console.error("fail", url, String(e));
+      console.error("fail", url, String(e).slice(0, 200));
     }
   }
 

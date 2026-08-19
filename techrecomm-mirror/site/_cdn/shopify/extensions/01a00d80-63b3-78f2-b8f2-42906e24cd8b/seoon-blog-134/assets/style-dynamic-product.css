@@ -1,0 +1,172 @@
+.Avada-Container_DynamicProduct .swiper-pagination {
+  position: static !important;
+}
+
+.Avada-Container_DynamicProduct .mySwiper {
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer */
+}
+
+.Avada-ViewAll {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+.Avada-ViewAll div[id*="Avada-Tool__DynamicProduct"] {
+  display: block;
+}
+
+.Avada-ViewAll p {
+  color: #B5B5B5
+}
+
+.Avada-ViewAll a {
+  color: #005BD3;
+  font-weight: 650;
+  text-decoration: none
+}
+
+.Avada-DynamicProduct-Button_prev,
+.Avada-DynamicProduct-Button_next {
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0 15px;
+}
+
+.Avada-Container_DynamicProduct .swiper-pagination {
+  position: static !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Avada-DynamicProduct__Desktop {
+  margin-bottom: 5px;
+  display: block;
+  max-width: 100%;
+}
+
+.Avada-DynamicProduct__Mobile {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.Avada-DynamicProduct__Desktop img {
+  width: 100% !important;
+  border-radius: 12px;
+  object-fit: cover;
+  cursor: pointer;
+
+}
+
+.Avada-DynamicProduct__Mobile img {
+  width: 250px !important;
+  border-radius: 12px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.Avada-DynamicProduct-Info {
+  display: flex;
+  flex-direction: column;
+}
+
+.Avada-DynamicProduct-Info .Avada-DynamicProduct-Info_Title {
+  font-weight: 500;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.Avada-DynamicProduct-Info_Price {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  height: 50px;
+}
+
+.Avada-DynamicProduct-Info_Price-Now {
+  font-weight: 600;
+  font-size: 15px;
+  margin: 0 10px 0 0;
+  padding: 0;
+}
+
+.Avada-DynamicProduct-Info_Price-Discount {
+  font-size: 12px;
+  text-decoration: line-through;
+  margin: 0;
+  padding: 0;
+}
+
+.Avada-DynamicProduct-ButtonBuy {
+  padding: 6px 20px;
+  font-weight: 500;
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.Avada-DynamicProduct-ButtonBuy a {
+  text-decoration: none;
+  display: block;
+}
+
+.Avada-SEOon__Brading {
+  font-weight: 450;
+  font-size: 13px;
+  color: #B5B5B5;
+}
+
+@media (max-width: 768px) {
+  .Avada-DynamicProduct__Desktop img {
+    width: 100% !important;
+    max-width: 100%;
+  }
+
+  .Avada-DynamicProduct__Mobile img {
+    width: 100% !important;
+    max-width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+
+  .Avada-DynamicProduct__Mobile {
+    display: block;
+  }
+
+  .Avada-Container_DynamicProduct .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+  }
+
+  p.Avada-DynamicProduct-Info_Title {
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 1 !important;
+    white-space: normal !important;
+  }
+}
+.Avada-Tool__DynamicProductValue {
+  display: none !important;
+}
+
+.Avada-Decoration-Element{
+  a:empty, ul:empty, dl:empty, div:empty, section:empty, article:empty, p:empty, h1:empty, h2:empty, h3:empty, h4:empty, h5:empty, h6:empty{
+    display: block !important;
+  }
+}

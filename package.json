@@ -3,17 +3,22 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "techrecomm static site (mirrored frontend + normalize)",
+  "description": "techrecomm static site (mirrored frontend + localize)",
   "scripts": {
     "mirror": "node scripts/mirror.mjs",
+    "localize": "node scripts/localize.mjs",
     "gap-fill": "node scripts/gap-fill.mjs",
-    "fetch:embedded": "node scripts/fetch-embedded-urls.mjs",
-    "fetch:missing": "node scripts/fetch-missing-assets.mjs",
-    "normalize": "node scripts/normalize-mirror.mjs",
+    "strip-trackers": "node scripts/strip-trackers.mjs",
+    "rebrand": "node scripts/rebrand.mjs",
+    "wordmark": "node scripts/make-wordmark.mjs",
+    "customize": "node scripts/customize.mjs",
+    "policy-pages": "node scripts/policy-pages.mjs",
+    "page-content": "node scripts/page-content.mjs",
+    "storefront-state": "node scripts/storefront-state.mjs",
     "audit": "node scripts/audit-local.mjs",
     "parity": "node scripts/parity-screenshots.mjs",
     "serve": "npx serve -l tcp://127.0.0.1:3333 --no-port-switching -c ../serve.json techrecomm-mirror/site",
-    "build:mirror": "npm run mirror && npm run gap-fill && npm run fetch:embedded && npm run fetch:missing && npm run normalize && npm run audit"
+    "build:mirror": "npm run mirror && npm run localize && npm run gap-fill && npm run localize && npm run strip-trackers && npm run rebrand && npm run wordmark && npm run customize && npm run policy-pages && npm run page-content && npm run storefront-state && npm run audit"
   },
   "dependencies": {
     "website-scraper": "^5.3.1"
