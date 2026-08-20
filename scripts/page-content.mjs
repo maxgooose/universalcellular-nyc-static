@@ -4,7 +4,7 @@
  * Content is inserted as a theme-styled block before the page's first
  * template section; an id marker keeps it idempotent (re-runs replace).
  */
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, copyFileSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -27,7 +27,7 @@ const PAGES = {
   "pages/warranty": {
     title: "Warranty",
     body: `
-<p>Every device purchased from techrecomm includes a [12]-month limited warranty covering functional defects in parts and workmanship under normal use.</p>
+<p>Every device purchased from techrecomm includes a 12-month limited warranty covering functional defects in parts and workmanship under normal use.</p>
 <h2>What's covered</h2>
 <p>Hardware faults that affect normal operation — battery health below the advertised threshold, screen or camera malfunction, charging or connectivity failures not caused by damage after delivery.</p>
 <h2>What's not covered</h2>
@@ -74,6 +74,17 @@ function main() {
     writeFileSync(file, next);
     results[rel] = "injected";
   }
+
+  // The legacy /pages/warranty-return-policy/ path mirrors the warranty
+  // page; refresh the copy AFTER injection so it carries the real content
+  // (customize.mjs copies it earlier in the chain, pre-injection).
+  const src = join(SITE_ROOT, "pages", "warranty", "index.html");
+  const dst = join(SITE_ROOT, "pages", "warranty-return-policy", "index.html");
+  if (existsSync(src) && existsSync(dst)) {
+    copyFileSync(src, dst);
+    results["pages/warranty-return-policy"] = "refreshed from warranty";
+  }
+
   console.log(JSON.stringify(results, null, 2));
 }
 

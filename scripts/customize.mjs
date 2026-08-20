@@ -18,6 +18,7 @@ import {
   existsSync,
   mkdirSync,
   copyFileSync,
+  rmSync,
 } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
@@ -117,6 +118,92 @@ const TEXT_PAIRS = [
   ["Phonecheck", "professional diagnostics"],
   // one blog post links a collection handle that doesn't exist
   ['collections/iphone-12"', 'collections/refurbished-iphone-12-models"'],
+  // Samsung blog post links two products that 404 on the live site —
+  // retarget those anchors at the Samsung collection instead
+  [
+    'href="../../../products/refurbished-samsung-galaxy-s20-fe-5g-unlocked/index.html"',
+    'href="/collections/samsung/"',
+  ],
+  [
+    'href="../../../products/refurbished-samsung-galaxy-s21-fe-5g-unlocked/index.html"',
+    'href="/collections/samsung/"',
+  ],
+  [
+    'data-mce-href="/products/refurbished-samsung-galaxy-s20-fe-5g-unlocked"',
+    'data-mce-href="/collections/samsung/"',
+  ],
+  [
+    'data-mce-href="/products/refurbished-samsung-galaxy-s21-fe-5g-unlocked"',
+    'data-mce-href="/collections/samsung/"',
+  ],
+  [
+    'title="Refurbished Samsung Galaxy S20 FE 5G | Fully Unlocked"',
+    'title="Refurbished Samsung Phones"',
+  ],
+  [
+    'title="Refurbished Samsung Galaxy S21 FE 5G | Fully Unlocked"',
+    'title="Refurbished Samsung Phones"',
+  ],
+  // the source site's blog author left a template URL in one post
+  ['href="https://yourdomain.com/collections/all"', 'href="/collections/all"'],
+  // prose link to the removed phonecheck post → surviving FAQ page
+  [
+    'href="/blogs/news/phonecheck-certified-for-refurbished-iphone" title="Certified refurbished iPhone"',
+    'href="/pages/refurbished-devices-faq/" title="Refurbished device FAQ"',
+  ],
+  // Blog-post links to pages the live site 404s on (now in REMOVE_PAGES) —
+  // retargeted to surviving equivalents. Relative forms must come before
+  // the bare root-relative (data-mce-href) forms they contain.
+  [
+    "../../../collections/iphone-12/products/iphone-12-mini-refurbished-unlocked/index.html",
+    "/collections/refurbished-iphone-12-models/",
+  ],
+  [
+    "/collections/iphone-12/products/iphone-12-mini-refurbished-unlocked",
+    "/collections/refurbished-iphone-12-models/",
+  ],
+  [
+    "../../../collections/refurbished-iphones/products/iphone-12-refurbished-unlocked/index.html",
+    "/products/iphone-12-refurbished-unlocked/",
+  ],
+  [
+    "/collections/refurbished-iphones/products/iphone-12-refurbished-unlocked",
+    "/products/iphone-12-refurbished-unlocked/",
+  ],
+  ["../../news/grading/index.html", "/pages/refurbished-devices-faq/"],
+  ["/blogs/news/grading", "/pages/refurbished-devices-faq/"],
+  [
+    "../../../products/refurbished-iphone-7-plus-unlocked/index.html",
+    "/collections/other-iphones/",
+  ],
+  ["/products/refurbished-iphone-7-plus-unlocked", "/collections/other-iphones/"],
+  [
+    "../../news/phonecheck-certified-for-refurbished-iphone/index.html",
+    "/pages/refurbished-devices-faq/",
+  ],
+  [
+    "/blogs/news/phonecheck-certified-for-refurbished-iphone",
+    "/pages/refurbished-devices-faq/",
+  ],
+  [
+    "../../../products/refurbished-samsung-galaxy-s22-ultra-5g-unlocked/index.html",
+    "/collections/samsung/",
+  ],
+  ["/products/refurbished-samsung-galaxy-s22-ultra-5g-unlocked", "/collections/samsung/"],
+  [
+    "../../../products/refurbished-samsung-galaxy-z-flip3-5g-unlocked/index.html",
+    "/collections/samsung/",
+  ],
+  ["/products/refurbished-samsung-galaxy-z-flip3-5g-unlocked", "/collections/samsung/"],
+  [
+    "/collections/iphones/products/appl-iph12-unl",
+    "/products/iphone-12-refurbished-unlocked/",
+  ],
+  // localize mangled an inline SVG clip-path fragment ref on the homepage
+  [
+    "clip-path: url(&quot;index.html#shape-beae-taf2i5jt&quot;)",
+    "clip-path: url(#shape-beae-taf2i5jt)",
+  ],
 ];
 
 /** Remove whole <li> blocks that contain a given slug (blog listing cards). */
@@ -128,7 +215,10 @@ function removeLiContaining(html, slug) {
     const at = out.indexOf(slug);
     if (at < 0) break;
     const liStart = out.lastIndexOf("<li", at);
-    if (liStart < 0) break;
+    // Only cut when the slug sits inside a nearby card-sized <li>. A slug
+    // mentioned in article prose has no enclosing card; walking to a far
+    // earlier <li> across unclosed list items once deleted a whole page.
+    if (liStart < 0 || at - liStart > 5000) break;
     const tokenRe = /<li\b[^>]*>|<\/li>/gi;
     tokenRe.lastIndex = liStart;
     let depth = 0;
@@ -141,7 +231,7 @@ function removeLiContaining(html, slug) {
         break;
       }
     }
-    if (end < 0 || end < at) break;
+    if (end < 0 || end < at || end - liStart > 20000) break;
     out = out.slice(0, liStart) + out.slice(end);
     removed++;
   }
@@ -152,6 +242,27 @@ const REMOVE_CARD_SLUGS = [
   "phonecheck-certified-for-refurbished-iphone",
   // "Reviews" nav item pointing at their old Shopify account page
   "1000000000/account/pages",
+];
+
+/**
+ * URLs the live site 404s on but the crawl still saved (discontinued
+ * products, old blog paths, collection-scoped product URLs). The mirrored
+ * files contain the "Page not found" shell, so drop them — nothing links
+ * to them once the TEXT_PAIRS retargets above are applied.
+ */
+const REMOVE_PAGES = [
+  // the source site's pay-per-review scheme ($5/$10 coupons for Trustpilot/
+  // Google/Yelp reviews) — violates review-platform policies; orphan page
+  "pages/review",
+  "blogs/news",
+  "products/refurbished-iphone-7-plus-unlocked",
+  "products/refurbished-samsung-galaxy-s20-fe-5g-unlocked",
+  "products/refurbished-samsung-galaxy-s21-fe-5g-unlocked",
+  "products/refurbished-samsung-galaxy-s22-ultra-5g-unlocked",
+  "products/refurbished-samsung-galaxy-z-flip3-5g-unlocked",
+  "collections/iphone-12/products",
+  "collections/iphones/products",
+  "collections/refurbished-iphones/products",
 ];
 
 const LEGACY_COPIES = [
@@ -181,7 +292,12 @@ function removeBalancedBlocks(html, openTagRe) {
       }
     }
     if (end < 0) break; // unbalanced markup — leave untouched
-    out = out.slice(0, start) + out.slice(end);
+    // Unbalanced divs inside the block can make the walker overshoot past
+    // the end of <main> (this ate </main> on product pages once). Preserve
+    // any structural close tags swallowed by the cut.
+    const cut = out.slice(start, end);
+    const keep = cut.includes("</main>") ? "</main>" : "";
+    out = out.slice(0, start) + keep + out.slice(end);
     removed++;
   }
   return { out, removed };
@@ -240,6 +356,15 @@ function main() {
     }
   }
 
+  let pagesDeleted = 0;
+  for (const rel of REMOVE_PAGES) {
+    const p = join(SITE_ROOT, ...rel.split("/"));
+    if (existsSync(p)) {
+      rmSync(p, { recursive: true, force: true });
+      pagesDeleted++;
+    }
+  }
+
   let legacyCopies = 0;
   for (const [src, dst] of LEGACY_COPIES) {
     const s = join(SITE_ROOT, ...src.split("/"));
@@ -253,7 +378,7 @@ function main() {
 
   console.log(
     JSON.stringify(
-      { filesChanged, sectionsRemoved, innerBlocksRemoved, legacyCopies },
+      { filesChanged, sectionsRemoved, innerBlocksRemoved, pagesDeleted, legacyCopies },
       null,
       2,
     ),

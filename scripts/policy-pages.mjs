@@ -12,13 +12,13 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SITE_ROOT = join(__dirname, "..", "techrecomm-mirror", "site");
 
-const NOTE = "<!-- Generic template content. Review with legal counsel and replace placeholders before launch. -->";
+const NOTE = "<!-- Generic template content. Review with legal counsel before launch. -->";
 const CONTACT_LINE =
   '<p>Questions? Contact us at <a href="mailto:admin@techrecomm.com">admin@techrecomm.com</a>.</p>';
 
 const BODIES = {
   "policies/terms-of-service": `${NOTE}
-<p><em>Last updated: [DATE]</em></p>
+<p><em>Last updated: August 20, 2026</em></p>
 <h2>1. Agreement to these terms</h2>
 <p>By accessing or purchasing from this website (the "Site"), operated by Tech Recommerce Solutions Inc ("techrecomm", "we", "us"), you agree to these Terms of Service. If you do not agree, please do not use the Site.</p>
 <h2>2. Products and pricing</h2>
@@ -36,14 +36,14 @@ const BODIES = {
 <h2>8. Acceptable use and intellectual property</h2>
 <p>You may not misuse the Site, interfere with its operation, or use it for unlawful purposes. Site content is owned by or licensed to us and may not be reproduced without permission. Product names and logos of third-party manufacturers are trademarks of their respective owners and are used only to identify genuine products.</p>
 <h2>9. Governing law</h2>
-<p>These terms are governed by the laws of [STATE/JURISDICTION], without regard to conflict-of-law rules. Disputes will be resolved in the courts of [STATE/JURISDICTION] unless applicable law requires otherwise.</p>
+<p>These terms are governed by the laws of the State of New York, without regard to conflict-of-law rules. Disputes will be resolved in the state or federal courts located in New York unless applicable law requires otherwise.</p>
 <h2>10. Changes</h2>
 <p>We may update these terms from time to time; the version posted on the Site at the time of your order applies to that order.</p>
 <h2>11. Contact</h2>
 <p>Tech Recommerce Solutions Inc<br>2727 Coney Island Ave Ste C5<br>Brooklyn, NY 11235-5004<br><a href="mailto:admin@techrecomm.com">admin@techrecomm.com</a><br>+1 (646) 601-6012</p>`,
 
   "policies/privacy-policy": `${NOTE}
-<p><em>Last updated: [DATE]</em></p>
+<p><em>Last updated: August 20, 2026</em></p>
 <h2>1. What we collect</h2>
 <p>When you browse or order, we collect the information you provide (name, email, shipping and billing address, phone, order details) and technical data collected automatically (IP address, device and browser information, pages viewed, cookies).</p>
 <h2>2. How we use it</h2>
@@ -64,13 +64,13 @@ const BODIES = {
 <p>Tech Recommerce Solutions Inc<br>2727 Coney Island Ave Ste C5<br>Brooklyn, NY 11235-5004<br><a href="mailto:admin@techrecomm.com">admin@techrecomm.com</a></p>`,
 
   "policies/refund-policy": `${NOTE}
-<p><em>Last updated: [DATE]</em></p>
+<p><em>Last updated: August 20, 2026</em></p>
 <h2>Return window</h2>
-<p>You may return most items within [30] days of delivery. To be eligible, the item must be in the condition you received it, with all included accessories, and not have any new damage, activation locks, or accounts signed in.</p>
+<p>You may return most items within 30 days of delivery. To be eligible, the item must be in the condition you received it, with all included accessories, and not have any new damage, activation locks, or accounts signed in.</p>
 <h2>How to start a return</h2>
 <p>Email <a href="mailto:admin@techrecomm.com">admin@techrecomm.com</a> with your order number and reason for return. If approved, we will send a return shipping label and instructions. Items sent back without first requesting a return may not be accepted.</p>
 <h2>Refunds</h2>
-<p>Once we receive and inspect your return, we will notify you of the decision. Approved refunds are issued to your original payment method within [5–10] business days. Your bank or card issuer may need additional time to post it.</p>
+<p>Once we receive and inspect your return, we will notify you of the decision. Approved refunds are issued to your original payment method within 5–10 business days. Your bank or card issuer may need additional time to post it.</p>
 <h2>Damaged, defective, or wrong items</h2>
 <p>Inspect your order on arrival and contact us immediately if an item is defective, damaged, or not what you ordered — we will make it right with a replacement or refund at no cost to you.</p>
 <h2>Exchanges</h2>
@@ -80,11 +80,11 @@ const BODIES = {
 ${CONTACT_LINE}`,
 
   "policies/shipping-policy": `${NOTE}
-<p><em>Last updated: [DATE]</em></p>
+<p><em>Last updated: August 20, 2026</em></p>
 <h2>Processing time</h2>
-<p>Orders are processed within [1–2] business days (orders placed on weekends or holidays are processed the next business day). You will receive a confirmation email with tracking once your order ships.</p>
+<p>Orders are processed within 1–2 business days (orders placed on weekends or holidays are processed the next business day). You will receive a confirmation email with tracking once your order ships.</p>
 <h2>Delivery estimates</h2>
-<p>Standard domestic delivery typically arrives within [2–5] business days after processing, depending on destination and carrier. Delivery dates are estimates, not guarantees.</p>
+<p>Standard domestic delivery typically arrives within 2–5 business days after processing, depending on destination and carrier. Delivery dates are estimates, not guarantees.</p>
 <h2>Shipping costs</h2>
 <p>Shipping costs, including any free-shipping thresholds, are shown at checkout before you pay.</p>
 <h2>Address accuracy</h2>
