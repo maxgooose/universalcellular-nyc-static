@@ -1,6 +1,6 @@
 # techrecomm – static site
 
-Design and copy are maintained in the static output at [`techrecomm-mirror/site`](techrecomm-mirror/site). The frontend was mirrored from **https://wireless-source.com/** (a Shopify storefront) as the starting template; branding, copy, and catalog content are being replaced with our own as customization proceeds.
+Design and copy are maintained in the static output at [`techrecomm-mirror/site`](techrecomm-mirror/site).
 
 ## Prerequisites
 
