@@ -36,6 +36,8 @@ const REMOVE_SECTION_ID_RES = [
   /^<(?:div|section) id="shopify-section-[^"]*__176219794330670c3c"/,
   // newsletter signup bar ("Join now to get early access...")
   /^<(?:div|section) id="shopify-section-[^"]*__1762200659c818d17c"/,
+  // "Subscribe to our emails" newsletter sections on blog/page templates
+  /^<(?:div|section) id="shopify-section-template--\d+__newsletter_/,
   // announcement bar ("2-day FREE SHIPPING")
   /^<(?:div|section) id="shopify-section-[^"]*__announcement_bar_/,
   // "FREE Earbuds" gift promo — a shared page-template section instance
@@ -321,17 +323,22 @@ function main() {
     const text = readFileSync(file, "utf8");
 
     const chunks = text.split(SECTION_BOUNDARY);
-    const kept = chunks.filter((chunk) => {
-      if (!SECTION_CHUNK_START.test(chunk)) return true;
+    const kept = [];
+    for (const chunk of chunks) {
       if (
-        REMOVE_SECTION_ID_RES.some((re) => re.test(chunk)) ||
-        REMOVE_SECTION_FNS.some((fn) => fn(chunk))
+        SECTION_CHUNK_START.test(chunk) &&
+        (REMOVE_SECTION_ID_RES.some((re) => re.test(chunk)) ||
+          REMOVE_SECTION_FNS.some((fn) => fn(chunk)))
       ) {
         sectionsRemoved++;
-        return false;
+        // A chunk runs to the NEXT section boundary, so the last section
+        // inside <main> carries the closing </main> — keep it or the page
+        // structure breaks (this ate </main> on 86 blog pages once).
+        if (chunk.includes("</main>")) kept.push("</main>\n");
+        continue;
       }
-      return true;
-    });
+      kept.push(chunk);
+    }
     let next = kept.join("");
 
     for (const re of INNER_BLOCK_RES) {
